@@ -13,7 +13,7 @@ public class Generate : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Floatings();
+//        Floatings();
 
         UpdateFloating(); 
 
@@ -34,14 +34,20 @@ public class Generate : MonoBehaviour
 
     void CreateTerreno()
     {
-        // UpdateFloating();   
+        //UpdateFloating();
 
+      	/**
+      	 * Criar uma aleatoriadade para criar padrões não lineares no terreno.
+      	 */
         if (Random.Range(-2f, 1f) > 0) {
-            UpdateFloating();    
+            UpdateFloating();
         }
-        
+
+      	/**
+      	 * Criar uma aleatoriadade para criar padrões não lineares no terreno.
+      	 */
         if (Random.Range(-50f, 1f) > 0) {
-            // _index *= 2;
+            _index *= 2;
         }
 
         Instantiate(terreno, new Vector3(Screen.width/95, (float) y, -1), Quaternion.identity);
@@ -51,25 +57,30 @@ public class Generate : MonoBehaviour
 
     void CreateObstaculo()
     {
-        Instantiate(obstaculo, new Vector3(Screen.width/100, 0 , -2), Quaternion.identity);
+        Instantiate(obstaculo, new Vector3(Screen.width/100, 0 , 0), Quaternion.identity);
     }
 
+    // Variavel incrmental para calcular o seno
     private double _index;
+
+  	// Posicao centralizada do terreno
     private float _posY = -4.5f;
-    private float _radiusY = 0.2f;
-    private float _frequencyY = 30f;
-    private float _phase;
-    private double y;
 
-    private void Floatings() 
-    {
-        // _frequencyY = (1 + (Random.Range(0f, 1f) * 3)) / 2;
-        _phase = Random.Range(0f, 1f) * (2 * Mathf.PI);
-    }
+    // Angulo de inclinacao do relevo
+    private float _radiusY = 0.5f;
 
+  	// Distancia entre relevo alto e baixo
+    private float _frequencyY = 30;
+
+  	// Posicao do terreno
+    public double y;
+
+	/**
+	 * Cria uma nova posição para o proximo terreno
+     */
     public void UpdateFloating()
     {
-        y = _posY + Mathf.Sin ( (float) (_index * _frequencyY + _phase) ) * _radiusY;
+        y = _posY + Mathf.Sin ( (float) (_index * _frequencyY ) ) * _radiusY;
         _index += .03;
     }
     

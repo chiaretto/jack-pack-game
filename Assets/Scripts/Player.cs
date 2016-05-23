@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public Animator _animacao;
 
     const float VELOCIDADELIMITEVOO = 2.5f;
-    const float VELOCIDADELIMITEQUEDA = -2f;
+    const float VELOCIDADELIMITEQUEDA = -2.5f;
     const float FORCAJETPACK = 9.5f;
     private bool voando;
     public float _velocidadeY;
@@ -23,8 +23,11 @@ public class Player : MonoBehaviour
 	public AudioClip jetpack_clip_up;
 	public AudioClip jetpack_clip_down;
 	public AudioClip jetpack_clip_die;
+  	public AudioClip player_count_point;
 
 	AudioSource jetpack_audio;
+  	AudioSource player_point_audio;
+    public AudioSource[] sounds = null;
 
     void Start()
     {
@@ -33,15 +36,15 @@ public class Player : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
        _animacao = GetComponentInChildren<Animator>();
 
-		jetpack_audio = GetComponent<AudioSource> ();
-
+        jetpack_audio = sounds[0];
+        player_point_audio = sounds[1];
     }
 
     // Update is called once per frame
     void Update()
     {
         // Identifica a acao
-        if (Input.GetMouseButton(0) || Input.touchCount > 0)
+        if (Input.GetMouseButton(0) || Input.touchCount > 0 || Input.GetKey(KeyCode.Space))
         {
             voando = true;
         }
@@ -125,7 +128,7 @@ public class Player : MonoBehaviour
 
         // Flying
         if (voando) {
-
+			// UP
 			// Audio
 			jetpack_audio.loop = true;
 			jetpack_audio.clip = jetpack_clip_up;
@@ -148,11 +151,11 @@ public class Player : MonoBehaviour
             }
         }
         else {
-			
+			// DOWN
 			// Audio
 			jetpack_audio.loop = true;
 			jetpack_audio.clip = jetpack_clip_down;
-			jetpack_audio.volume = 0.1f;
+			jetpack_audio.volume = 0f;
 
 			if (!jetpack_audio.isPlaying) {
 				jetpack_audio.Play ();
@@ -178,6 +181,11 @@ public class Player : MonoBehaviour
 
     public void CountPoint()
     {
+      	player_point_audio.loop = false;
+        player_point_audio.clip = player_count_point;
+        player_point_audio.volume = 1f;
+        player_point_audio.Play ();
+
         ++this.score;
         if (this.score <= Player.record)
             return;

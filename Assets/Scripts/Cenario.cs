@@ -24,7 +24,7 @@ public class Cenario : MonoBehaviour {
 	private void CriarNuvem1(){
 		float pos_x = ((Screen.width*1.1f/2 + MetaUtils.getWidth(nuvem1)/2)/100)+MetaUtils.getWidth(nuvem1)/2/100;
 		GameObject obj = (GameObject)Instantiate(nuvem1, new Vector3(pos_x, Random.Range(-0.3f, 3f), 1), Quaternion.identity);
-		obj.GetComponentInChildren<Rigidbody2D>().velocity = new Vector2(-0.1f, 0f);
+		obj.GetComponentInChildren<Rigidbody2D>().velocity = new Vector2(-0.5f, 0f);
 	}
 
 
